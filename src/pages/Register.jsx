@@ -29,13 +29,16 @@ function Register() {
         alert("Registration successful!");
 
         // 🔥 Optional: auto login after register
-        const loginRes = await fetch("http://localhost:5000/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const loginRes = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/auth/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
           },
-          body: JSON.stringify({ email, password }),
-        });
+        );
 
         const loginData = await loginRes.json();
 
