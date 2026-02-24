@@ -14,7 +14,7 @@ function ProductDetails() {
               {[1, 2, 3, 4].map((img) => (
                 <img
                   key={img}
-                  src="https://via.placeholder.com/80x100"
+                  src={`https://picsum.photos/seed/product-thumb-${img}/80/100`}
                   alt="thumb"
                   className="img-fluid border"
                   style={{ cursor: "pointer" }}
@@ -25,7 +25,7 @@ function ProductDetails() {
             {/* Main Image */}
             <div className="col-9">
               <img
-                src="https://via.placeholder.com/500x600"
+                src="https://picsum.photos/seed/product-main/500/600"
                 alt="product"
                 className="img-fluid"
               />
@@ -105,7 +105,7 @@ function ProductDetails() {
             <div className="col-md-3 mb-4" key={item}>
               <div className="card border-0 text-center">
                 <img
-                  src="https://via.placeholder.com/300x350"
+                  src={`https://picsum.photos/seed/product-related-${item}/300/350`}
                   className="card-img-top"
                   alt="related"
                 />

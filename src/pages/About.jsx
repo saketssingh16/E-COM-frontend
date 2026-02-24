@@ -13,7 +13,7 @@ function About() {
         {/* LEFT IMAGE */}
         <div className="col-md-5 mb-4 mb-md-0">
           <img
-            src="https://via.placeholder.com/500x500"
+            src="https://picsum.photos/seed/about-page/500/500"
             alt="about"
             className="img-fluid"
           />

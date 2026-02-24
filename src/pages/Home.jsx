@@ -6,7 +6,7 @@ function Home() {
     id: i + 1,
     name: "Men Round Neck Cotton T-shirt",
     price: 89,
-    image: "https://via.placeholder.com/300x350",
+    image: `https://picsum.photos/seed/home-product-${i + 1}/300/350`,
   }));
 
   return (
@@ -26,7 +26,7 @@ function Home() {
 
           <div className="col-md-6 text-center">
             <img
-              src="https://via.placeholder.com/500x500"
+              src="https://picsum.photos/seed/home-hero/500/500"
               alt="hero"
               className="img-fluid"
             />

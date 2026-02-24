@@ -13,7 +13,7 @@ function Contact() {
         {/* LEFT IMAGE */}
         <div className="col-md-5 mb-4 mb-md-0">
           <img
-            src="https://via.placeholder.com/500x400"
+            src="https://picsum.photos/seed/contact-store/500/400"
             alt="contact"
             className="img-fluid"
           />

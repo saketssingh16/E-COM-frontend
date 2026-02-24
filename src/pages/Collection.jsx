@@ -8,7 +8,7 @@ function Collection() {
     id: i + 1,
     name: "Women Round Neck Cotton Top",
     price: 89,
-    image: "https://via.placeholder.com/300x350",
+    image: `https://picsum.photos/seed/collection-product-${i + 1}/300/350`,
   }));
 
   return (
