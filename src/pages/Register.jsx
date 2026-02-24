@@ -26,25 +26,25 @@ function Register() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Registration successful!");
+        alert("Success");
 
-        // 🔥 Optional: auto login after register
-        const loginRes = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/auth/login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
+        const loginRes = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({ email, password }),
+        });
 
         const loginData = await loginRes.json();
 
         if (loginRes.ok) {
           localStorage.setItem("token", loginData.token);
+          alert(`Welcome, ${name}!`);
           navigate("/home");
+        } else {
+          alert(loginData.message || "Registered successfully. Please login.");
+          navigate("/login");
         }
       } else {
         alert(data.message);
@@ -59,7 +59,7 @@ function Register() {
     <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-md-5 col-lg-4 text-center">
-          <h3 className="mb-4">Sign Up —</h3>
+          <h3 className="mb-4">Sign Up -</h3>
 
           <form onSubmit={handleRegister}>
             <div className="mb-3">

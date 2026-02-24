@@ -11,24 +11,20 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ email, password }),
+      });
 
       const data = await res.json();
 
       if (res.ok) {
-        // ✅ Save token
         localStorage.setItem("token", data.token);
-
-        // ✅ Redirect to home
+        const displayName = email.split("@")[0] || "User";
+        alert(`Welcome, ${displayName}!`);
         navigate("/home");
       } else {
         alert(data.message);
@@ -43,7 +39,7 @@ function Login() {
     <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-md-5 col-lg-4 text-center">
-          <h3 className="mb-4">Login —</h3>
+          <h3 className="mb-4">Login -</h3>
 
           <form onSubmit={handleLogin}>
             <div className="mb-3">
