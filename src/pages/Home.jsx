@@ -62,7 +62,7 @@ const handleImageError = (event) => {
 function Home() {
   return (
     <div className="home-page">
-      <section className="home-hero container py-4 py-lg-5">
+      <section className="home-hero container py-4 py-lg-5 reveal-up">
         <div className="row g-3 g-lg-4">
           <div className="col-lg-8">
             <div className="home-hero-main p-4 p-md-5">
@@ -85,7 +85,7 @@ function Home() {
 
           <div className="col-lg-4">
             <div className="home-promo-grid">
-              <div className="promo-card">
+              <div className="promo-card reveal-up reveal-delay-1">
                 <img
                   src="https://loremflickr.com/500/500/fashion,sale,clothing?lock=11"
                   alt="Sale promo"
@@ -96,7 +96,7 @@ function Home() {
                   <h6 className="mb-0">Up to 50% OFF</h6>
                 </div>
               </div>
-              <div className="promo-card">
+              <div className="promo-card reveal-up reveal-delay-2">
                 <img
                   src="https://loremflickr.com/500/500/new,arrival,fashion?lock=12"
                   alt="New arrivals"
@@ -112,17 +112,23 @@ function Home() {
         </div>
       </section>
 
-      <section className="container pb-4">
+      <section className="container pb-4 reveal-up reveal-delay-1">
         <div className="row g-3">
           {[
             { title: "Women", img: "https://loremflickr.com/500/500/women,clothing,fashion?lock=21" },
             { title: "Men", img: "https://loremflickr.com/500/500/men,clothing,fashion?lock=22" },
             { title: "Footwear", img: "https://loremflickr.com/500/500/shoes,footwear,fashion?lock=23" },
             { title: "Accessories", img: "https://loremflickr.com/500/500/accessories,fashion,style?lock=24" },
-          ].map((item) => (
+          ].map((item, index) => (
             <div className="col-6 col-md-3" key={item.title}>
               <Link to="/collection" className="category-card d-block">
-                <img src={item.img} alt={item.title} onError={handleImageError} />
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  onError={handleImageError}
+                  className="stagger-item"
+                  style={{ "--i": index }}
+                />
                 <span>{item.title}</span>
               </Link>
             </div>
@@ -130,7 +136,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="container py-4">
+      <section className="container py-4 reveal-up reveal-delay-2">
         <div className="d-flex align-items-center justify-content-between mb-3">
           <h4 className="section-title mb-0">Top Picks For You</h4>
           <Link to="/collection" className="view-all-link">
@@ -139,9 +145,13 @@ function Home() {
         </div>
 
         <div className="row g-3 g-lg-4">
-          {topProducts.map((product) => (
+          {topProducts.map((product, index) => (
             <div className="col-6 col-md-4 col-lg-3" key={product.id}>
-              <Link to="/product" className="product-card d-block">
+              <Link
+                to="/product"
+                className="product-card d-block stagger-item"
+                style={{ "--i": index }}
+              >
                 <div className="product-image-wrap">
                   <img
                     src={product.image}
@@ -160,7 +170,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="container py-4">
+      <section className="container py-4 reveal-up reveal-delay-3">
         <div className="value-strip row g-3 text-center">
           <div className="col-md-4">
             <div className="value-item">
@@ -183,7 +193,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="container pt-2 pb-5">
+      <section className="container pt-2 pb-5 reveal-up reveal-delay-4">
         <div className="newsletter-box text-center p-4 p-md-5">
           <h5 className="mb-2">Get 20% OFF on Your First Order</h5>
           <p className="text-muted mb-3">Join our mailing list for offers, drops, and style edits.</p>
