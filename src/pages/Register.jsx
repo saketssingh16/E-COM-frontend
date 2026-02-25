@@ -7,9 +7,12 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("success");
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setMessage("");
 
     try {
       const res = await fetch(
@@ -26,7 +29,8 @@ function Register() {
       const data = await res.json();
 
       if (res.ok) {
-        alert("Success");
+        setMessageType("success");
+        setMessage("Success");
 
         const loginRes = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
           method: "POST",
@@ -40,18 +44,22 @@ function Register() {
 
         if (loginRes.ok) {
           localStorage.setItem("token", loginData.token);
-          alert(`Welcome, ${name}!`);
-          navigate("/home");
+          setMessageType("success");
+          setMessage(`Welcome, ${name || "User"}!`);
+          setTimeout(() => navigate("/home"), 900);
         } else {
-          alert(loginData.message || "Registered successfully. Please login.");
-          navigate("/login");
+          setMessageType("warning");
+          setMessage(loginData.message || "Registered successfully. Please login.");
+          setTimeout(() => navigate("/login"), 900);
         }
       } else {
-        alert(data.message);
+        setMessageType("danger");
+        setMessage(data.message || "Registration failed");
       }
     } catch (error) {
       console.error(error);
-      alert("Something went wrong");
+      setMessageType("danger");
+      setMessage("Something went wrong");
     }
   };
 
@@ -60,6 +68,11 @@ function Register() {
       <div className="row justify-content-center">
         <div className="col-md-5 col-lg-4 text-center">
           <h3 className="mb-4">Sign Up -</h3>
+          {message ? (
+            <div className={`alert alert-${messageType} text-start py-2`} role="alert">
+              {message}
+            </div>
+          ) : null}
 
           <form onSubmit={handleRegister}>
             <div className="mb-3">
