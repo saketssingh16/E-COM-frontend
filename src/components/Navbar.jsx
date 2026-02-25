@@ -14,20 +14,23 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-white border-bottom py-3">
       <div className="container">
-        {/* Logo */}
-        <Link className="navbar-brand fw-bold" to={token ? "/home" : "/"}>
-          SAKE-ITT<span className="text-danger">.</span>
-        </Link>
-
         {/* Toggle button */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler me-2"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
+        {/* Logo */}
+        <Link className="navbar-brand fw-bold me-auto me-lg-0" to={token ? "/home" : "/"}>
+          SAKE-ITT<span className="text-danger">.</span>
+        </Link>
 
         {/* Links */}
         {token && (

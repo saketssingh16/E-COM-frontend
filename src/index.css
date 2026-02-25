@@ -46,6 +46,14 @@ a {
   color: var(--brand-pink) !important;
 }
 
+.navbar-toggler {
+  order: 0;
+}
+
+.navbar-brand {
+  font-size: 1.2rem;
+}
+
 .btn-dark {
   background: linear-gradient(90deg, var(--brand-pink), var(--brand-orange));
   border: none;
@@ -85,5 +93,11 @@ a {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1rem;
   }
 }
