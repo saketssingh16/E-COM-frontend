@@ -1,95 +1,65 @@
 import React from "react";
+import "./StorePages.css";
+
+const fallbackImage = "https://picsum.photos/900/700?fashion";
+const handleImageError = (event) => {
+  event.currentTarget.src = fallbackImage;
+};
 
 function About() {
   return (
-    <div className="container py-5">
-      {/* TITLE */}
-      <div className="text-center mb-5">
-        <h4 className="fw-light">ABOUT US —</h4>
-      </div>
-
-      {/* MAIN SECTION */}
-      <div className="row align-items-center mb-5">
-        {/* LEFT IMAGE */}
-        <div className="col-md-5 mb-4 mb-md-0">
-          <img
-            src="https://picsum.photos/seed/about-page/500/500"
-            alt="about"
-            className="img-fluid"
-          />
-        </div>
-
-        {/* RIGHT TEXT */}
-        <div className="col-md-7">
-          <p className="text-muted small">
-            SAKE_ITT was born out of a passion for innovation and a desire to
-            redefine the way people shop online. Our journey began with a simple
-            idea: to curate high-quality, fashionable products that inspire
-            confidence and individuality.
-          </p>
-
-          <p className="text-muted small">
-            Since our inception, we’ve worked tirelessly to build a trusted
-            e-commerce platform that connects customers with premium brands and
-            timeless styles.
-          </p>
-
-          <h6 className="fw-bold mt-4">Our Mission</h6>
-          <p className="text-muted small">
-            Our mission is to empower individuals through fashion, offering
-            convenience, quality, and exceptional service at every step of their
-            shopping experience.
-          </p>
-        </div>
-      </div>
-
-      {/* WHY CHOOSE US */}
-      <div className="mb-5">
-        <h6 className="fw-light mb-4">WHY CHOOSE US —</h6>
-
-        <div className="row text-center">
-          <div className="col-md-4 border p-4">
-            <h6 className="fw-bold">QUALITY ASSURANCE</h6>
-            <p className="text-muted small">
-              We carefully select and test each product to ensure premium
-              quality and durability.
-            </p>
-          </div>
-
-          <div className="col-md-4 border p-4">
-            <h6 className="fw-bold">CONVENIENCE</h6>
-            <p className="text-muted small">
-              Enjoy a seamless shopping experience with secure payments and fast
-              delivery.
-            </p>
-          </div>
-
-          <div className="col-md-4 border p-4">
-            <h6 className="fw-bold">EXCEPTIONAL CUSTOMER SERVICE</h6>
-            <p className="text-muted small">
-              Our support team is always ready to assist you with any inquiries
-              or concerns.
-            </p>
+    <div className="page-shell py-4 py-lg-5">
+      <div className="container">
+        <div className="page-card p-4 p-lg-5">
+          <div className="row align-items-center g-4">
+            <div className="col-lg-5">
+              <img
+                src="https://loremflickr.com/900/700/fashion,store,team?lock=301"
+                alt="About Sake-itt"
+                className="visual-cover"
+                onError={handleImageError}
+              />
+            </div>
+            <div className="col-lg-7">
+              <p className="pill-badge mb-3">ABOUT SAKE-ITT</p>
+              <h2 className="page-title mb-3">Style-First Shopping, Built for Everyday India</h2>
+              <p className="section-subtitle">
+                SAKE-ITT started with one goal: make trend-forward fashion accessible,
+                reliable, and enjoyable. We curate quality styles, fast delivery, and smooth
+                support so you can focus on what fits you best.
+              </p>
+              <p className="section-subtitle mb-0">
+                From essentials to statement pieces, our catalog is shaped by real customer
+                feedback, comfort standards, and modern design.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* SUBSCRIBE SECTION */}
-      <div className="row justify-content-center mt-5 pt-4">
-        <div className="col-md-6 text-center">
-          <h5 className="mb-2">Subscribe now & get 20% off</h5>
-          <p className="text-muted small">
-            Lorem ipsum is simply dummy text of the printing and typesetting
-            industry.
-          </p>
-
-          <div className="input-group mt-3">
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Enter your email"
-            />
-            <button className="btn btn-dark">SUBSCRIBE</button>
+        <div className="row g-3 g-lg-4 mt-1">
+          <div className="col-md-4">
+            <div className="page-card p-4 h-100">
+              <h6 className="fw-bold">Quality First</h6>
+              <p className="section-subtitle mb-0">
+                Every item is reviewed for fabric feel, fit, and finish before listing.
+              </p>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="page-card p-4 h-100">
+              <h6 className="fw-bold">Fast Fulfillment</h6>
+              <p className="section-subtitle mb-0">
+                Optimized dispatch and tracking for a dependable delivery experience.
+              </p>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="page-card p-4 h-100">
+              <h6 className="fw-bold">Customer Care</h6>
+              <p className="section-subtitle mb-0">
+                Responsive support with transparent updates and easy issue resolution.
+              </p>
+            </div>
           </div>
         </div>
       </div>

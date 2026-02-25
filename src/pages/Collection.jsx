@@ -1,87 +1,106 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import "./StorePages.css";
+
+const fallbackImage = "https://picsum.photos/600/750?fashion";
+const handleImageError = (event) => {
+  event.currentTarget.src = fallbackImage;
+};
+
+const products = [
+  { id: 1, name: "Women Solid Casual Top", price: 1299, category: "Women", image: "https://loremflickr.com/600/750/women,top,fashion?lock=101" },
+  { id: 2, name: "Men Printed Oversized Tee", price: 999, category: "Men", image: "https://loremflickr.com/600/750/men,tshirt,fashion?lock=102" },
+  { id: 3, name: "Girls Party Dress", price: 1499, category: "Kids", image: "https://loremflickr.com/600/750/kids,dress,fashion?lock=103" },
+  { id: 4, name: "Men Slim Fit Shirt", price: 1399, category: "Men", image: "https://loremflickr.com/600/750/men,shirt,style?lock=104" },
+  { id: 5, name: "Women Wide Leg Jeans", price: 1899, category: "Women", image: "https://loremflickr.com/600/750/women,jeans,fashion?lock=105" },
+  { id: 6, name: "Kids Hoodie Set", price: 1199, category: "Kids", image: "https://loremflickr.com/600/750/kids,hoodie,clothing?lock=106" },
+  { id: 7, name: "Women Co-ord Set", price: 2299, category: "Women", image: "https://loremflickr.com/600/750/women,coord,style?lock=107" },
+  { id: 8, name: "Men Denim Jacket", price: 2499, category: "Men", image: "https://loremflickr.com/600/750/men,denim,jacket?lock=108" },
+];
 
 function Collection() {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("default");
 
-  const products = Array.from({ length: 32 }, (_, i) => ({
-    id: i + 1,
-    name: "Women Round Neck Cotton Top",
-    price: 89,
-    image: `https://picsum.photos/seed/collection-product-${i + 1}/300/350`,
-  }));
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    if (selectedCategory !== "All") {
+      result = result.filter((product) => product.category === selectedCategory);
+    }
+
+    if (sortBy === "low") result.sort((a, b) => a.price - b.price);
+    if (sortBy === "high") result.sort((a, b) => b.price - a.price);
+
+    return result;
+  }, [selectedCategory, sortBy]);
 
   return (
-    <div className="container py-5">
-      <div className="row">
-        {/* FILTER SIDEBAR */}
-        <div className="col-md-3">
-          <h6 className="mb-3">FILTERS</h6>
-
-          {/* CATEGORY */}
-          <div className="mb-4">
-            <h6 className="small fw-bold">Category</h6>
-
-            {["Men", "Women", "Kids"].map((cat) => (
-              <div key={cat} className="form-check">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="category"
-                  onChange={() => setSelectedCategory(cat)}
-                />
-                <label className="form-check-label small">{cat}</label>
-              </div>
-            ))}
-          </div>
-
-          {/* PRICE */}
-          <div className="mb-4">
-            <h6 className="small fw-bold">Price</h6>
-
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" />
-              <label className="form-check-label small">$0 - $50</label>
-            </div>
-
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" />
-              <label className="form-check-label small">$50 - $100</label>
-            </div>
-          </div>
+    <div className="page-shell py-4 py-lg-5">
+      <div className="container">
+        <div className="collection-banner page-card p-4 p-md-5 mb-4">
+          <p className="pill-badge mb-3">FRESH DROP</p>
+          <h2 className="page-title mb-2">Curated Styles for Every Mood</h2>
+          <p className="section-subtitle mb-0">
+            Explore fashion-forward picks across men, women, and kids with easy filtering.
+          </p>
         </div>
 
-        {/* PRODUCTS GRID */}
-        <div className="col-md-9">
-          <div className="d-flex justify-content-between mb-4">
-            <h6>ALL COLLECTIONS</h6>
-
-            <select className="form-select w-auto">
-              <option>Sort by: Default</option>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
-            </select>
+        <div className="row g-4">
+          <div className="col-lg-3">
+            <div className="page-card p-3 p-md-4">
+              <h6 className="fw-bold mb-3">Filters</h6>
+              <p className="small text-muted mb-2">Category</p>
+              {["All", "Men", "Women", "Kids"].map((category) => (
+                <div key={category} className="form-check mb-2">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="category"
+                    id={category}
+                    checked={selectedCategory === category}
+                    onChange={() => setSelectedCategory(category)}
+                  />
+                  <label className="form-check-label" htmlFor={category}>
+                    {category}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="row">
-            {products.map((product) => (
-              <div className="col-md-3 mb-4" key={product.id}>
-                <div className="card border-0">
-                  <Link to="/product">
+          <div className="col-lg-9">
+            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+              <h4 className="page-title">All Collections</h4>
+              <select
+                className="form-select w-auto"
+                value={sortBy}
+                onChange={(event) => setSortBy(event.target.value)}
+              >
+                <option value="default">Sort: Default</option>
+                <option value="low">Price: Low to High</option>
+                <option value="high">Price: High to Low</option>
+              </select>
+            </div>
+
+            <div className="row g-3 g-lg-4">
+              {filteredProducts.map((product) => (
+                <div className="col-6 col-md-4 col-xl-3" key={product.id}>
+                  <Link to="/product" className="collection-product-card d-block">
                     <img
                       src={product.image}
-                      className="card-img-top"
-                      alt="product"
+                      alt={product.name}
+                      className="collection-product-image"
+                      onError={handleImageError}
                     />
+                    <div className="p-3">
+                      <p className="mb-1 fw-semibold small">{product.name}</p>
+                      <p className="mb-0 fw-bold">Rs. {product.price}</p>
+                    </div>
                   </Link>
-
-                  <div className="card-body text-center">
-                    <h6 className="card-title small">{product.name}</h6>
-                    <p className="text-muted small">${product.price}</p>
-                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
