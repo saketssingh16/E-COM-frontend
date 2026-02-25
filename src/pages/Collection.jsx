@@ -38,7 +38,7 @@ function Collection() {
   return (
     <div className="page-shell py-4 py-lg-5">
       <div className="container">
-        <div className="collection-banner page-card p-4 p-md-5 mb-4">
+        <div className="collection-banner page-card p-4 p-md-5 mb-4 reveal-on-scroll">
           <p className="pill-badge mb-3">FRESH DROP</p>
           <h2 className="page-title mb-2">Curated Styles for Every Mood</h2>
           <p className="section-subtitle mb-0">
@@ -48,7 +48,7 @@ function Collection() {
 
         <div className="row g-4">
           <div className="col-lg-3">
-            <div className="page-card p-3 p-md-4">
+            <div className="page-card p-3 p-md-4 reveal-on-scroll">
               <h6 className="fw-bold mb-3">Filters</h6>
               <p className="small text-muted mb-2">Category</p>
               {["All", "Men", "Women", "Kids"].map((category) => (
@@ -70,7 +70,7 @@ function Collection() {
           </div>
 
           <div className="col-lg-9">
-            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3 reveal-on-scroll">
               <h4 className="page-title">All Collections</h4>
               <select
                 className="form-select w-auto"
@@ -85,7 +85,7 @@ function Collection() {
 
             <div className="row g-3 g-lg-4">
               {filteredProducts.map((product) => (
-                <div className="col-6 col-md-4 col-xl-3" key={product.id}>
+                <div className="col-6 col-md-4 col-xl-3 reveal-on-scroll" key={product.id}>
                   <Link to="/product" className="collection-product-card d-block">
                     <img
                       src={product.image}

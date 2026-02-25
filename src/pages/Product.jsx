@@ -20,7 +20,7 @@ function ProductDetails() {
   return (
     <div className="page-shell py-4 py-lg-5">
       <div className="container">
-        <div className="page-card p-3 p-lg-4">
+        <div className="page-card p-3 p-lg-4 reveal-on-scroll">
           <div className="row g-4">
             <div className="col-lg-6">
               <div className="row g-3">
@@ -101,7 +101,7 @@ function ProductDetails() {
           </div>
         </div>
 
-        <div className="page-card mt-4 p-4">
+        <div className="page-card mt-4 p-4 reveal-on-scroll">
           <h5 className="fw-bold mb-3">Product Details</h5>
           <p className="text-muted mb-0">
             Crafted with soft combed cotton, this tee balances comfort and structure. Ideal
@@ -109,13 +109,13 @@ function ProductDetails() {
           </p>
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 reveal-on-scroll">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h4 className="page-title">Related Products</h4>
           </div>
           <div className="row g-3 g-lg-4">
             {[1, 2, 3, 4].map((item) => (
-              <div className="col-6 col-md-3" key={item}>
+              <div className="col-6 col-md-3 reveal-on-scroll" key={item}>
                 <div className="collection-product-card">
                   <img
                     src={`https://loremflickr.com/600/750/fashion,clothing,men?lock=23${item}`}

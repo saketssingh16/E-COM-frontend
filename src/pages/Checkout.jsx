@@ -7,7 +7,7 @@ function Checkout() {
       <div className="container">
         <div className="row g-4">
           <div className="col-lg-7">
-            <div className="page-card p-4">
+            <div className="page-card p-4 reveal-on-scroll">
               <h4 className="page-title mb-3">Delivery Information</h4>
               <form>
                 <div className="row">
@@ -48,7 +48,7 @@ function Checkout() {
           </div>
 
           <div className="col-lg-5">
-            <div className="page-card p-4 summary-panel">
+            <div className="page-card p-4 summary-panel reveal-on-scroll">
               <h5 className="fw-bold mb-3">Order Summary</h5>
               <div className="d-flex justify-content-between mb-2">
                 <span>Subtotal</span>

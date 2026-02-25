@@ -36,7 +36,7 @@ function Cart() {
       <div className="container">
         <div className="row g-4">
           <div className="col-lg-8">
-            <div className="page-card p-3 p-md-4">
+            <div className="page-card p-3 p-md-4 reveal-on-scroll">
               <h4 className="page-title mb-3">Your Cart</h4>
               {cartItems.map((item) => (
                 <div key={item.id} className="d-flex justify-content-between border-bottom py-3 gap-3">
@@ -71,7 +71,7 @@ function Cart() {
           </div>
 
           <div className="col-lg-4">
-            <div className="page-card p-4 summary-panel">
+            <div className="page-card p-4 summary-panel reveal-on-scroll">
               <h5 className="fw-bold mb-3">Price Summary</h5>
               <div className="d-flex justify-content-between mb-2">
                 <span>Subtotal</span>

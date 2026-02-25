@@ -64,9 +64,11 @@ function Register() {
   };
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-5 col-lg-4 text-center">
+    <div className="auth-shell">
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-4">
+            <div className="auth-card p-4 reveal-on-scroll text-center">
           <h3 className="mb-4">Sign Up -</h3>
           {message ? (
             <div className={`alert alert-${messageType} text-start py-2`} role="alert">
@@ -109,6 +111,8 @@ function Register() {
               Create
             </button>
           </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>

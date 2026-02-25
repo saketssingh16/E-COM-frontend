@@ -31,7 +31,7 @@ function Orders() {
   return (
     <div className="page-shell py-4 py-lg-5">
       <div className="container">
-        <div className="page-card p-3 p-md-4">
+        <div className="page-card p-3 p-md-4 reveal-on-scroll">
           <h4 className="page-title mb-3">My Orders</h4>
           {orders.map((order) => (
             <div key={order.id} className="d-flex justify-content-between border-bottom py-3 gap-3">

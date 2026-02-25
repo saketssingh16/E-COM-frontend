@@ -1,5 +1,5 @@
 .page-shell {
-  background: linear-gradient(180deg, #f7f8fc 0%, #ffffff 100%);
+  background: linear-gradient(180deg, #fff1f4 0%, #f6f4ff 28%, #ffffff 100%);
 }
 
 .page-card {
@@ -21,7 +21,7 @@
 
 .collection-banner {
   min-height: 270px;
-  background: linear-gradient(120deg, #ffe9ed 0%, #ece8ff 100%);
+  background: linear-gradient(120deg, #ffd8e2 0%, #ece2ff 100%);
 }
 
 .collection-product-card {
@@ -67,17 +67,18 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  background: #111827;
+  background: linear-gradient(90deg, #ff3f6c, #ff8f3f);
   color: #fff;
   border-radius: 999px;
   padding: 0.35rem 0.8rem;
 }
 
 .mini-stat {
-  border: 1px solid #e5e7eb;
+  border: 1px solid #f3d9e1;
   border-radius: 12px;
   padding: 0.85rem;
   text-align: center;
+  background: linear-gradient(180deg, #fff 0%, #fff6f9 100%);
 }
 
 .mini-stat h6 {

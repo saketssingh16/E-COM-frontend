@@ -10,7 +10,7 @@ function Contact() {
   return (
     <div className="page-shell py-4 py-lg-5">
       <div className="container">
-        <div className="page-card p-4 p-lg-5">
+        <div className="page-card p-4 p-lg-5 reveal-on-scroll">
           <div className="row align-items-center g-4">
             <div className="col-lg-6">
               <img
@@ -36,7 +36,7 @@ function Contact() {
           </div>
         </div>
 
-        <div className="page-card mt-4 p-4 text-center">
+        <div className="page-card mt-4 p-4 text-center reveal-on-scroll">
           <h5 className="fw-bold mb-2">Subscribe & Get 20% Off</h5>
           <p className="section-subtitle mb-3">Weekly style edits and exclusive offers in your inbox.</p>
           <div className="newsletter-form mx-auto">

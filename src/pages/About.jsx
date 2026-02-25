@@ -10,7 +10,7 @@ function About() {
   return (
     <div className="page-shell py-4 py-lg-5">
       <div className="container">
-        <div className="page-card p-4 p-lg-5">
+        <div className="page-card p-4 p-lg-5 reveal-on-scroll">
           <div className="row align-items-center g-4">
             <div className="col-lg-5">
               <img
@@ -37,7 +37,7 @@ function About() {
         </div>
 
         <div className="row g-3 g-lg-4 mt-1">
-          <div className="col-md-4">
+          <div className="col-md-4 reveal-on-scroll">
             <div className="page-card p-4 h-100">
               <h6 className="fw-bold">Quality First</h6>
               <p className="section-subtitle mb-0">
@@ -45,7 +45,7 @@ function About() {
               </p>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 reveal-on-scroll">
             <div className="page-card p-4 h-100">
               <h6 className="fw-bold">Fast Fulfillment</h6>
               <p className="section-subtitle mb-0">
@@ -53,7 +53,7 @@ function About() {
               </p>
             </div>
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 reveal-on-scroll">
             <div className="page-card p-4 h-100">
               <h6 className="fw-bold">Customer Care</h6>
               <p className="section-subtitle mb-0">
