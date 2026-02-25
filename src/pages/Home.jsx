@@ -7,51 +7,57 @@ const topProducts = [
     id: 1,
     name: "Men Solid Crew T-Shirt",
     price: 899,
-    image: "https://source.unsplash.com/700x900/?mens-fashion,tshirt",
+    image: "https://loremflickr.com/700/900/men,fashion,clothing?lock=1",
   },
   {
     id: 2,
     name: "Women Linen Summer Dress",
     price: 1599,
-    image: "https://source.unsplash.com/700x900/?women-fashion,dress",
+    image: "https://loremflickr.com/700/900/women,fashion,dress?lock=2",
   },
   {
     id: 3,
     name: "Unisex Classic Sneakers",
     price: 2199,
-    image: "https://source.unsplash.com/700x900/?sneakers,shoes",
+    image: "https://loremflickr.com/700/900/shoes,sneakers,fashion?lock=3",
   },
   {
     id: 4,
     name: "Minimal Everyday Backpack",
     price: 1899,
-    image: "https://source.unsplash.com/700x900/?backpack,fashion",
+    image: "https://loremflickr.com/700/900/backpack,fashion,style?lock=4",
   },
   {
     id: 5,
     name: "Oversized Graphic Hoodie",
     price: 1799,
-    image: "https://source.unsplash.com/700x900/?hoodie,fashion",
+    image: "https://loremflickr.com/700/900/hoodie,streetwear,fashion?lock=5",
   },
   {
     id: 6,
     name: "Slim Fit Denim Jacket",
     price: 2499,
-    image: "https://source.unsplash.com/700x900/?denim,jacket",
+    image: "https://loremflickr.com/700/900/denim,jacket,fashion?lock=6",
   },
   {
     id: 7,
     name: "Women Handbag Collection",
     price: 1999,
-    image: "https://source.unsplash.com/700x900/?handbag,style",
+    image: "https://loremflickr.com/700/900/handbag,women,fashion?lock=7",
   },
   {
     id: 8,
     name: "Streetwear Cargo Pants",
     price: 1699,
-    image: "https://source.unsplash.com/700x900/?cargo,pants",
+    image: "https://loremflickr.com/700/900/cargo,pants,fashion?lock=8",
   },
 ];
+
+const fallbackFashionImage = "https://picsum.photos/700/900?fashion";
+
+const handleImageError = (event) => {
+  event.currentTarget.src = fallbackFashionImage;
+};
 
 function Home() {
   return (
@@ -81,8 +87,9 @@ function Home() {
             <div className="home-promo-grid">
               <div className="promo-card">
                 <img
-                  src="https://source.unsplash.com/500x500/?fashion-sale"
+                  src="https://loremflickr.com/500/500/fashion,sale,clothing?lock=11"
                   alt="Sale promo"
+                  onError={handleImageError}
                 />
                 <div className="promo-overlay">
                   <p className="mb-1">Flash Deal</p>
@@ -91,8 +98,9 @@ function Home() {
               </div>
               <div className="promo-card">
                 <img
-                  src="https://source.unsplash.com/500x500/?new-arrivals,clothing"
+                  src="https://loremflickr.com/500/500/new,arrival,fashion?lock=12"
                   alt="New arrivals"
+                  onError={handleImageError}
                 />
                 <div className="promo-overlay">
                   <p className="mb-1">Just In</p>
@@ -107,14 +115,14 @@ function Home() {
       <section className="container pb-4">
         <div className="row g-3">
           {[
-            { title: "Women", img: "https://source.unsplash.com/500x500/?women,outfit" },
-            { title: "Men", img: "https://source.unsplash.com/500x500/?men,outfit" },
-            { title: "Footwear", img: "https://source.unsplash.com/500x500/?shoes,fashion" },
-            { title: "Accessories", img: "https://source.unsplash.com/500x500/?accessories,fashion" },
+            { title: "Women", img: "https://loremflickr.com/500/500/women,clothing,fashion?lock=21" },
+            { title: "Men", img: "https://loremflickr.com/500/500/men,clothing,fashion?lock=22" },
+            { title: "Footwear", img: "https://loremflickr.com/500/500/shoes,footwear,fashion?lock=23" },
+            { title: "Accessories", img: "https://loremflickr.com/500/500/accessories,fashion,style?lock=24" },
           ].map((item) => (
             <div className="col-6 col-md-3" key={item.title}>
               <Link to="/collection" className="category-card d-block">
-                <img src={item.img} alt={item.title} />
+                <img src={item.img} alt={item.title} onError={handleImageError} />
                 <span>{item.title}</span>
               </Link>
             </div>
@@ -135,7 +143,12 @@ function Home() {
             <div className="col-6 col-md-4 col-lg-3" key={product.id}>
               <Link to="/product" className="product-card d-block">
                 <div className="product-image-wrap">
-                  <img src={product.image} className="product-image" alt={product.name} />
+                  <img
+                    src={product.image}
+                    className="product-image"
+                    alt={product.name}
+                    onError={handleImageError}
+                  />
                 </div>
                 <div className="p-3">
                   <p className="product-name mb-1">{product.name}</p>
