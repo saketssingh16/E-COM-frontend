@@ -11,7 +11,7 @@ const handleImageError = (event) => {
 function Cart() {
   const { cartItems, removeFromCart, updateQuantity, subtotal } = useCart();
 
-  const shipping = cartItems.length ? 99 : 0;
+  const shipping = subtotal > 999 ? 0 : cartItems.length ? 99 : 0;
   const total = subtotal + shipping;
 
   return (

@@ -4,7 +4,7 @@ import "./StorePages.css";
 
 function Checkout() {
   const { subtotal } = useCart();
-  const shipping = subtotal ? 99 : 0;
+  const shipping = subtotal > 999 ? 0 : subtotal ? 99 : 0;
   const total = subtotal + shipping;
 
   return (
