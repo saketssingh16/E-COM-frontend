@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { products } from "../data/products";
 import "./StorePages.css";
 
 const fallbackImage = "https://picsum.photos/600/750?fashion";
@@ -7,20 +8,14 @@ const handleImageError = (event) => {
   event.currentTarget.src = fallbackImage;
 };
 
-const products = [
-  { id: 1, name: "Women Solid Casual Top", price: 1299, category: "Women", image: "https://loremflickr.com/600/750/women,top,fashion?lock=101" },
-  { id: 2, name: "Men Printed Oversized Tee", price: 999, category: "Men", image: "https://loremflickr.com/600/750/men,tshirt,fashion?lock=102" },
-  { id: 3, name: "Girls Party Dress", price: 1499, category: "Kids", image: "https://loremflickr.com/600/750/kids,dress,fashion?lock=103" },
-  { id: 4, name: "Men Slim Fit Shirt", price: 1399, category: "Men", image: "https://loremflickr.com/600/750/men,shirt,style?lock=104" },
-  { id: 5, name: "Women Wide Leg Jeans", price: 1899, category: "Women", image: "https://loremflickr.com/600/750/women,jeans,fashion?lock=105" },
-  { id: 6, name: "Kids Hoodie Set", price: 1199, category: "Kids", image: "https://loremflickr.com/600/750/kids,hoodie,clothing?lock=106" },
-  { id: 7, name: "Women Co-ord Set", price: 2299, category: "Women", image: "https://loremflickr.com/600/750/women,coord,style?lock=107" },
-  { id: 8, name: "Men Denim Jacket", price: 2499, category: "Men", image: "https://loremflickr.com/600/750/men,denim,jacket?lock=108" },
-];
-
 function Collection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("default");
+
+  const categories = useMemo(
+    () => ["All", ...new Set(products.map((product) => product.category))],
+    [],
+  );
 
   const filteredProducts = useMemo(() => {
     let result = [...products];
@@ -65,7 +60,7 @@ function Collection() {
           <p className="pill-badge mb-3">FRESH DROP</p>
           <h2 className="page-title mb-2">Curated Styles for Every Mood</h2>
           <p className="section-subtitle mb-0">
-            Explore fashion-forward picks across men, women, and kids with easy filtering.
+            Explore fashion-forward picks across categories with easy filtering.
           </p>
         </div>
 
@@ -74,7 +69,7 @@ function Collection() {
             <div className="page-card p-3 p-md-4 reveal-on-scroll">
               <h6 className="fw-bold mb-3">Filters</h6>
               <p className="small text-muted mb-2">Category</p>
-              {["All", "Men", "Women", "Kids"].map((category) => (
+              {categories.map((category) => (
                 <div key={category} className="form-check mb-2">
                   <input
                     className="form-check-input"
@@ -109,7 +104,7 @@ function Collection() {
             <div className="row g-3 g-lg-4">
               {filteredProducts.map((product) => (
                 <div className="col-6 col-md-4 col-xl-3 reveal-on-scroll" key={product.id}>
-                  <Link to="/product" className="collection-product-card d-block">
+                  <Link to={`/product/${product.id}`} className="collection-product-card d-block">
                     <img
                       src={product.image}
                       alt={product.name}

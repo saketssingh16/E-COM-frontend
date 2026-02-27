@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 import "./StorePages.css";
 
 const fallbackImage = "https://picsum.photos/500/650?fashion";
@@ -8,27 +9,9 @@ const handleImageError = (event) => {
 };
 
 function Cart() {
-  const cartItems = [
-    {
-      id: 1,
-      name: "Men Round Neck Pure Cotton T-shirt",
-      price: 1499,
-      quantity: 1,
-      size: "L",
-      image: "https://loremflickr.com/500/650/men,tshirt,fashion?lock=501",
-    },
-    {
-      id: 2,
-      name: "Women Linen Summer Dress",
-      price: 1899,
-      quantity: 1,
-      size: "M",
-      image: "https://loremflickr.com/500/650/women,dress,fashion?lock=502",
-    },
-  ];
+  const { cartItems, removeFromCart, updateQuantity, subtotal } = useCart();
 
-  const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  const shipping = 99;
+  const shipping = cartItems.length ? 99 : 0;
   const total = subtotal + shipping;
 
   return (
@@ -38,8 +21,13 @@ function Cart() {
           <div className="col-lg-8">
             <div className="page-card p-3 p-md-4 reveal-on-scroll">
               <h4 className="page-title mb-3">Your Cart</h4>
+
+              {!cartItems.length && (
+                <p className="mb-0 text-muted">Your cart is empty. Add products from collection.</p>
+              )}
+
               {cartItems.map((item) => (
-                <div key={item.id} className="d-flex justify-content-between border-bottom py-3 gap-3">
+                <div key={`${item.id}-${item.size}`} className="d-flex justify-content-between border-bottom py-3 gap-3">
                   <div className="d-flex gap-3">
                     <img
                       src={item.image}
@@ -53,15 +41,35 @@ function Cart() {
                       <p className="mb-0 fw-semibold">Rs. {item.price}</p>
                     </div>
                   </div>
+
                   <div className="d-flex align-items-center gap-2">
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}
+                    >
+                      -
+                    </button>
                     <input
                       type="number"
                       value={item.quantity}
                       className="form-control"
                       style={{ width: "72px" }}
-                      readOnly
+                      onChange={(event) => updateQuantity(item.id, item.size, event.target.value)}
+                      min="1"
                     />
-                    <button type="button" className="btn btn-sm btn-outline-danger">
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-secondary"
+                      onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
+                    >
+                      +
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-danger"
+                      onClick={() => removeFromCart(item.id, item.size)}
+                    >
                       Remove
                     </button>
                   </div>
@@ -86,9 +94,16 @@ function Cart() {
                 <span>Total</span>
                 <span>Rs. {total}</span>
               </div>
-              <Link to="/checkout" className="btn btn-dark w-100">
-                Proceed to Checkout
-              </Link>
+
+              {cartItems.length ? (
+                <Link to="/checkout" className="btn btn-dark w-100">
+                  Proceed to Checkout
+                </Link>
+              ) : (
+                <Link to="/collection" className="btn btn-outline-dark w-100">
+                  Browse Products
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -1,7 +1,12 @@
 import React from "react";
+import { useCart } from "../context/CartContext";
 import "./StorePages.css";
 
 function Checkout() {
+  const { subtotal } = useCart();
+  const shipping = subtotal ? 99 : 0;
+  const total = subtotal + shipping;
+
   return (
     <div className="page-shell py-4 py-lg-5">
       <div className="container">
@@ -52,16 +57,16 @@ function Checkout() {
               <h5 className="fw-bold mb-3">Order Summary</h5>
               <div className="d-flex justify-content-between mb-2">
                 <span>Subtotal</span>
-                <span>Rs. 3398</span>
+                <span>Rs. {subtotal}</span>
               </div>
               <div className="d-flex justify-content-between mb-2">
                 <span>Shipping</span>
-                <span>Rs. 99</span>
+                <span>Rs. {shipping}</span>
               </div>
               <hr />
               <div className="d-flex justify-content-between fw-bold mb-4">
                 <span>Total</span>
-                <span>Rs. 3497</span>
+                <span>Rs. {total}</span>
               </div>
 
               <h6 className="fw-semibold mb-3">Payment Method</h6>

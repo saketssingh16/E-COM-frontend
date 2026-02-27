@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function Register() {
   const navigate = useNavigate();
 
@@ -15,16 +17,13 @@ function Register() {
     setMessage("");
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name, email, password }),
+      const res = await fetch(`${API_BASE}/api/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ name, email, password }),
+      });
 
       const data = await res.json();
 
@@ -32,7 +31,7 @@ function Register() {
         setMessageType("success");
         setMessage("Success");
 
-        const loginRes = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+        const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +49,7 @@ function Register() {
         } else {
           setMessageType("warning");
           setMessage(loginData.message || "Registered successfully. Please login.");
-          setTimeout(() => navigate("/login"), 900);
+          setTimeout(() => navigate("/"), 900);
         }
       } else {
         setMessageType("danger");

@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import { products } from "../data/products";
 import "./StorePages.css";
 
 const fallbackImage = "https://picsum.photos/600/750?fashion";
@@ -6,16 +9,29 @@ const handleImageError = (event) => {
   event.currentTarget.src = fallbackImage;
 };
 
-const gallery = [
-  "https://loremflickr.com/700/900/men,tshirt,fashion?lock=201",
-  "https://loremflickr.com/700/900/tshirt,clothing,style?lock=202",
-  "https://loremflickr.com/700/900/fashion,outfit,men?lock=203",
-  "https://loremflickr.com/700/900/casual,streetwear,men?lock=204",
-];
-
 function ProductDetails() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
+
+  const product = useMemo(
+    () => products.find((item) => item.id === Number(id)) || products[0],
+    [id],
+  );
+
+  const gallery = useMemo(
+    () => product.gallery || [product.image, product.image, product.image, product.image],
+    [product],
+  );
+
   const [selectedSize, setSelectedSize] = useState("M");
-  const [mainImage, setMainImage] = useState(gallery[0]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const mainImage = gallery[selectedImageIndex] || gallery[0];
+
+  const handleAddToCart = () => {
+    addToCart(product, 1, selectedSize);
+    navigate("/cart");
+  };
 
   return (
     <div className="page-shell py-4 py-lg-5">
@@ -26,13 +42,13 @@ function ProductDetails() {
               <div className="row g-3">
                 <div className="col-3">
                   <div className="d-flex flex-column gap-2">
-                    {gallery.map((image) => (
+                    {gallery.map((image, index) => (
                       <img
-                        key={image}
+                        key={`${image}-${index}`}
                         src={image}
                         alt="Product thumbnail"
                         className={`product-thumb ${mainImage === image ? "active" : ""}`}
-                        onClick={() => setMainImage(image)}
+                        onClick={() => setSelectedImageIndex(index)}
                         onError={handleImageError}
                       />
                     ))}
@@ -41,7 +57,7 @@ function ProductDetails() {
                 <div className="col-9">
                   <img
                     src={mainImage}
-                    alt="Main product"
+                    alt={product.name}
                     className="product-detail-main"
                     onError={handleImageError}
                   />
@@ -51,13 +67,10 @@ function ProductDetails() {
 
             <div className="col-lg-6">
               <span className="pill-badge">BESTSELLER</span>
-              <h3 className="mt-3 mb-2 fw-bold">Men Round Neck Pure Cotton T-shirt</h3>
-              <p className="mb-2 text-warning">★★★★☆ 4.2 (128 Reviews)</p>
-              <h4 className="fw-bold mb-3">Rs. 1499</h4>
-              <p className="text-muted">
-                Lightweight premium cotton t-shirt built for all-day comfort. A wardrobe
-                essential with modern fit and breathable fabric.
-              </p>
+              <h3 className="mt-3 mb-2 fw-bold">{product.name}</h3>
+              <p className="mb-2 text-warning">4.2 / 5 (128 Reviews)</p>
+              <h4 className="fw-bold mb-3">Rs. {product.price}</h4>
+              <p className="text-muted">{product.description}</p>
 
               <h6 className="fw-semibold mt-4">Select Size</h6>
               <div className="d-flex gap-2 mb-4">
@@ -73,7 +86,7 @@ function ProductDetails() {
                 ))}
               </div>
 
-              <button className="btn btn-dark px-4 py-2 mb-4" type="button">
+              <button className="btn btn-dark px-4 py-2 mb-4" type="button" onClick={handleAddToCart}>
                 Add to Cart
               </button>
 
@@ -104,8 +117,8 @@ function ProductDetails() {
         <div className="page-card mt-4 p-4 reveal-on-scroll">
           <h5 className="fw-bold mb-3">Product Details</h5>
           <p className="text-muted mb-0">
-            Crafted with soft combed cotton, this tee balances comfort and structure. Ideal
-            for layering or standalone wear in every season.
+            Crafted with soft combed cotton, this product balances comfort and structure.
+            Ideal for layering or standalone wear in every season.
           </p>
         </div>
 
@@ -114,22 +127,25 @@ function ProductDetails() {
             <h4 className="page-title">Related Products</h4>
           </div>
           <div className="row g-3 g-lg-4">
-            {[1, 2, 3, 4].map((item) => (
-              <div className="col-6 col-md-3 reveal-on-scroll" key={item}>
-                <div className="collection-product-card">
-                  <img
-                    src={`https://loremflickr.com/600/750/fashion,clothing,men?lock=23${item}`}
-                    className="collection-product-image"
-                    alt="Related product"
-                    onError={handleImageError}
-                  />
-                  <div className="p-3">
-                    <p className="mb-1 fw-semibold small">Men Casual Cotton Tee</p>
-                    <p className="mb-0 fw-bold">Rs. 999</p>
-                  </div>
+            {products
+              .filter((item) => item.id !== product.id)
+              .slice(0, 4)
+              .map((item) => (
+                <div className="col-6 col-md-3 reveal-on-scroll" key={item.id}>
+                  <Link to={`/product/${item.id}`} className="collection-product-card d-block">
+                    <img
+                      src={item.image}
+                      className="collection-product-image"
+                      alt={item.name}
+                      onError={handleImageError}
+                    />
+                    <div className="p-3">
+                      <p className="mb-1 fw-semibold small">{item.name}</p>
+                      <p className="mb-0 fw-bold">Rs. {item.price}</p>
+                    </div>
+                  </Link>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>

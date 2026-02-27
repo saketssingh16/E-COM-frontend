@@ -1,57 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { products } from "../data/products";
 import "./Home.css";
 
-const topProducts = [
-  {
-    id: 1,
-    name: "Men Solid Crew T-Shirt",
-    price: 899,
-    image: "https://loremflickr.com/700/900/men,fashion,clothing?lock=1",
-  },
-  {
-    id: 2,
-    name: "Women Linen Summer Dress",
-    price: 1599,
-    image: "https://loremflickr.com/700/900/women,fashion,dress?lock=2",
-  },
-  {
-    id: 3,
-    name: "Unisex Classic Sneakers",
-    price: 2199,
-    image: "https://loremflickr.com/700/900/shoes,sneakers,fashion?lock=3",
-  },
-  {
-    id: 4,
-    name: "Minimal Everyday Backpack",
-    price: 1899,
-    image: "https://loremflickr.com/700/900/backpack,fashion,style?lock=4",
-  },
-  {
-    id: 5,
-    name: "Oversized Graphic Hoodie",
-    price: 1799,
-    image: "https://loremflickr.com/700/900/hoodie,streetwear,fashion?lock=5",
-  },
-  {
-    id: 6,
-    name: "Slim Fit Denim Jacket",
-    price: 2499,
-    image: "https://loremflickr.com/700/900/denim,jacket,fashion?lock=6",
-  },
-  {
-    id: 7,
-    name: "Women Handbag Collection",
-    price: 1999,
-    image: "https://loremflickr.com/700/900/handbag,women,fashion?lock=7",
-  },
-  {
-    id: 8,
-    name: "Streetwear Cargo Pants",
-    price: 1699,
-    image: "https://loremflickr.com/700/900/cargo,pants,fashion?lock=8",
-  },
-];
+const topProducts = products.slice(0, 8);
 
 const fallbackFashionImage = "https://picsum.photos/700/900?fashion";
 
@@ -148,7 +100,7 @@ function Home() {
           {topProducts.map((product, index) => (
             <div className="col-6 col-md-4 col-lg-3" key={product.id}>
               <Link
-                to="/product"
+                to={`/product/${product.id}`}
                 className="product-card d-block stagger-item"
                 style={{ "--i": index }}
               >

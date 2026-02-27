@@ -1,14 +1,15 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function Navbar() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const { itemCount } = useCart();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
-    window.location.reload(); // forces navbar refresh
   };
 
   return (
@@ -67,7 +68,7 @@ function Navbar() {
         )}
 
         {/* Right Icons */}
-        <div className="d-flex gap-3">
+        <div className="d-flex gap-3 align-items-center">
           {/* If NOT logged in */}
           {!token && (
             <>
@@ -84,8 +85,13 @@ function Navbar() {
           {/* If logged in */}
           {token && (
             <>
-              <Link to="/cart" className="text-dark">
+              <Link to="/cart" className="text-dark position-relative">
                 <i className="bi bi-cart"></i>
+                {itemCount > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {itemCount}
+                  </span>
+                )}
               </Link>
 
               <button
