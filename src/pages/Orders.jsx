@@ -1,61 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { apiFetch } from "../config/api";
 import "./StorePages.css";
 
-const fallbackImage = "https://picsum.photos/500/650?order";
-const handleImageError = (event) => {
-  event.currentTarget.src = fallbackImage;
-};
-
 function Orders() {
-  const orders = [
-    {
-      id: 1,
-      name: "Men Round Neck Pure Cotton T-shirt",
-      quantity: 1,
-      size: "M",
-      price: 1499,
-      status: "Ready to ship",
-      image: "https://loremflickr.com/500/650/men,tshirt,fashion?lock=601",
-    },
-    {
-      id: 2,
-      name: "Women Linen Summer Dress",
-      quantity: 1,
-      size: "S",
-      price: 1899,
-      status: "Shipped",
-      image: "https://loremflickr.com/500/650/women,dress,fashion?lock=602",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const loadOrders = async () => {
+      try {
+        const data = await apiFetch("/api/orders/my");
+        setOrders(data.orders || []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadOrders();
+  }, []);
 
   return (
     <div className="page-shell py-4 py-lg-5">
       <div className="container">
         <div className="page-card p-3 p-md-4 reveal-on-scroll">
           <h4 className="page-title mb-3">My Orders</h4>
+          {!orders.length && <p className="text-muted mb-0">No orders yet.</p>}
           {orders.map((order) => (
-            <div key={order.id} className="d-flex justify-content-between border-bottom py-3 gap-3">
-              <div className="d-flex gap-3">
-                <img
-                  src={order.image}
-                  alt={order.name}
-                  className="order-item-image"
-                  onError={handleImageError}
-                />
-                <div>
-                  <h6 className="mb-1 fw-bold">{order.name}</h6>
-                  <p className="mb-1 text-muted">
-                    Rs. {order.price} | Qty: {order.quantity} | Size: {order.size}
-                  </p>
-                  <p className="small mb-0">
-                    <span className="text-success">●</span> {order.status}
-                  </p>
-                </div>
+            <div key={`${order.id}-${order.product_name}`} className="d-flex justify-content-between border-bottom py-3 gap-3">
+              <div>
+                <h6 className="mb-1 fw-bold">{order.product_name}</h6>
+                <p className="mb-1 text-muted">
+                  Rs. {order.price_at_purchase} | Qty: {order.quantity}
+                </p>
+                <p className="small mb-0">
+                  <span className="text-success">●</span> {order.status}
+                </p>
               </div>
-              <div className="d-flex align-items-center">
-                <button type="button" className="btn btn-outline-dark btn-sm">
-                  Track Order
-                </button>
+              <div className="text-end small text-muted">
+                <div>Order #{order.id}</div>
+                <div>{new Date(order.created_at).toLocaleString()}</div>
               </div>
             </div>
           ))}

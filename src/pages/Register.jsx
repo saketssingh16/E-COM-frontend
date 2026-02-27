@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import { apiFetch } from "../config/api";
 
 function Register() {
   const navigate = useNavigate();
@@ -17,48 +16,25 @@ function Register() {
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/register`, {
+      await apiFetch("/api/auth/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await res.json();
+      const loginData = await apiFetch("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
 
-      if (res.ok) {
-        setMessageType("success");
-        setMessage("Success");
-
-        const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        });
-
-        const loginData = await loginRes.json();
-
-        if (loginRes.ok) {
-          localStorage.setItem("token", loginData.token);
-          setMessageType("success");
-          setMessage(`Welcome, ${name || "User"}!`);
-          setTimeout(() => navigate("/home"), 900);
-        } else {
-          setMessageType("warning");
-          setMessage(loginData.message || "Registered successfully. Please login.");
-          setTimeout(() => navigate("/"), 900);
-        }
-      } else {
-        setMessageType("danger");
-        setMessage(data.message || "Registration failed");
-      }
+      localStorage.setItem("token", loginData.token);
+      localStorage.setItem("role", loginData.user?.role || "user");
+      localStorage.setItem("userName", loginData.user?.name || "");
+      setMessageType("success");
+      setMessage(`Welcome, ${name || "User"}!`);
+      setTimeout(() => navigate("/home"), 900);
     } catch (error) {
-      console.error(error);
       setMessageType("danger");
-      setMessage("Something went wrong");
+      setMessage(error.message || "Something went wrong");
     }
   };
 

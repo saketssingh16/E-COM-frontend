@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { products } from "../data/products";
+import { apiFetch } from "../config/api";
 import "./StorePages.css";
 
 const fallbackImage = "https://picsum.photos/600/750?fashion";
@@ -13,25 +13,55 @@ function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-
-  const product = useMemo(
-    () => products.find((item) => item.id === Number(id)) || products[0],
-    [id],
-  );
-
-  const gallery = useMemo(
-    () => product.gallery || [product.image, product.image, product.image, product.image],
-    [product],
-  );
-
+  const [product, setProduct] = useState(null);
+  const [allProducts, setAllProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState("M");
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const [productData, allData] = await Promise.all([
+          apiFetch(`/api/products/${id}`),
+          apiFetch("/api/products"),
+        ]);
+        setProduct(productData.product);
+        setAllProducts(allData.products || []);
+        setSelectedImageIndex(0);
+        setSelectedSize("M");
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    load();
+  }, [id]);
+
+  const gallery = useMemo(() => {
+    if (!product) return [];
+    return [product.image, product.image, product.image, product.image];
+  }, [product]);
+
   const mainImage = gallery[selectedImageIndex] || gallery[0];
 
   const handleAddToCart = () => {
+    if (!product) return;
     addToCart(product, 1, selectedSize);
     navigate("/cart");
   };
+
+  const relatedProducts = allProducts
+    .filter((item) => product && item.id !== product.id)
+    .slice(0, 4);
+
+  if (!product) {
+    return (
+      <div className="page-shell py-4 py-lg-5">
+        <div className="container">
+          <div className="page-card p-4">Loading product...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="page-shell py-4 py-lg-5">
@@ -127,25 +157,22 @@ function ProductDetails() {
             <h4 className="page-title">Related Products</h4>
           </div>
           <div className="row g-3 g-lg-4">
-            {products
-              .filter((item) => item.id !== product.id)
-              .slice(0, 4)
-              .map((item) => (
-                <div className="col-6 col-md-3 reveal-on-scroll" key={item.id}>
-                  <Link to={`/product/${item.id}`} className="collection-product-card d-block">
-                    <img
-                      src={item.image}
-                      className="collection-product-image"
-                      alt={item.name}
-                      onError={handleImageError}
-                    />
-                    <div className="p-3">
-                      <p className="mb-1 fw-semibold small">{item.name}</p>
-                      <p className="mb-0 fw-bold">Rs. {item.price}</p>
-                    </div>
-                  </Link>
-                </div>
-              ))}
+            {relatedProducts.map((item) => (
+              <div className="col-6 col-md-3 reveal-on-scroll" key={item.id}>
+                <Link to={`/product/${item.id}`} className="collection-product-card d-block">
+                  <img
+                    src={item.image}
+                    className="collection-product-image"
+                    alt={item.name}
+                    onError={handleImageError}
+                  />
+                  <div className="p-3">
+                    <p className="mb-1 fw-semibold small">{item.name}</p>
+                    <p className="mb-0 fw-bold">Rs. {item.price}</p>
+                  </div>
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </div>

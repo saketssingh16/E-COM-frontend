@@ -12,6 +12,8 @@ import Product from "./pages/Product";
 import Collection from "./pages/Collection";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
+import Admin from "./pages/Admin";
 
 function App() {
   const location = useLocation();
@@ -117,6 +119,15 @@ function App() {
             <ProtectedRoute>
               <Collection />
             </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
           }
         />
       </Routes>

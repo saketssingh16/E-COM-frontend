@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { apiFetch } from "../config/api";
 import "./StorePages.css";
 
 function Checkout() {
-  const { subtotal } = useCart();
+  const navigate = useNavigate();
+  const { cartItems, subtotal, clearCart } = useCart();
+  const [placing, setPlacing] = useState(false);
   const shipping = subtotal > 999 ? 0 : subtotal ? 99 : 0;
   const total = subtotal + shipping;
+
+  const placeOrder = async () => {
+    if (!cartItems.length) return;
+    try {
+      setPlacing(true);
+      await apiFetch("/api/orders", {
+        method: "POST",
+        body: JSON.stringify({ cartItems }),
+      });
+      clearCart();
+      navigate("/order");
+    } catch (error) {
+      alert(error.message || "Failed to place order");
+    } finally {
+      setPlacing(false);
+    }
+  };
 
   return (
     <div className="page-shell py-4 py-lg-5">
@@ -88,7 +109,13 @@ function Checkout() {
                   Cash on Delivery
                 </label>
               </div>
-              <button className="btn btn-dark w-100">Place Order</button>
+              <button
+                className="btn btn-dark w-100"
+                disabled={!cartItems.length || placing}
+                onClick={placeOrder}
+              >
+                {placing ? "Placing..." : "Place Order"}
+              </button>
             </div>
           </div>
         </div>

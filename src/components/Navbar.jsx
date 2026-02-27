@@ -5,10 +5,13 @@ import { useCart } from "../context/CartContext";
 function Navbar() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
   const { itemCount } = useCart();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userName");
     navigate("/");
   };
 
@@ -63,6 +66,13 @@ function Navbar() {
                   CONTACT
                 </Link>
               </li>
+              {role === "admin" && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin">
+                    ADMIN
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         )}

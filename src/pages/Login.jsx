@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+import { apiFetch } from "../config/api";
 
 function Login() {
   const navigate = useNavigate();
@@ -16,30 +15,20 @@ function Login() {
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
+      const data = await apiFetch("/api/auth/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({ email, password }),
       });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        localStorage.setItem("token", data.token);
-        const displayName = email.split("@")[0] || "User";
-        setMessageType("success");
-        setMessage(`Welcome, ${displayName}!`);
-        setTimeout(() => navigate("/home"), 900);
-      } else {
-        setMessageType("danger");
-        setMessage(data.message || "Login failed");
-      }
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.user?.role || "user");
+      localStorage.setItem("userName", data.user?.name || "");
+      const displayName = data.user?.name || email.split("@")[0] || "User";
+      setMessageType("success");
+      setMessage(`Welcome, ${displayName}!`);
+      setTimeout(() => navigate("/home"), 900);
     } catch (error) {
-      console.error(error);
       setMessageType("danger");
-      setMessage("Something went wrong");
+      setMessage(error.message || "Something went wrong");
     }
   };
 

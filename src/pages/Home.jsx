@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { products } from "../data/products";
+import { apiFetch } from "../config/api";
 import "./Home.css";
-
-const topProducts = products.slice(0, 8);
 
 const fallbackFashionImage = "https://picsum.photos/700/900?fashion";
 
@@ -12,6 +10,21 @@ const handleImageError = (event) => {
 };
 
 function Home() {
+  const [topProducts, setTopProducts] = useState([]);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await apiFetch("/api/products");
+        setTopProducts((data.products || []).slice(0, 8));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
   return (
     <div className="home-page">
       <section className="home-hero container py-4 py-lg-5 reveal-on-scroll">

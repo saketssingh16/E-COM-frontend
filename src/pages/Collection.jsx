@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { products } from "../data/products";
+import { apiFetch } from "../config/api";
 import "./StorePages.css";
 
 const fallbackImage = "https://picsum.photos/600/750?fashion";
@@ -11,10 +11,23 @@ const handleImageError = (event) => {
 function Collection() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("default");
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await apiFetch("/api/products");
+        setProducts(data.products || []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadProducts();
+  }, []);
 
   const categories = useMemo(
     () => ["All", ...new Set(products.map((product) => product.category))],
-    [],
+    [products],
   );
 
   const filteredProducts = useMemo(() => {
@@ -24,11 +37,11 @@ function Collection() {
       result = result.filter((product) => product.category === selectedCategory);
     }
 
-    if (sortBy === "low") result.sort((a, b) => a.price - b.price);
-    if (sortBy === "high") result.sort((a, b) => b.price - a.price);
+    if (sortBy === "low") result.sort((a, b) => Number(a.price) - Number(b.price));
+    if (sortBy === "high") result.sort((a, b) => Number(b.price) - Number(a.price));
 
     return result;
-  }, [selectedCategory, sortBy]);
+  }, [products, selectedCategory, sortBy]);
 
   useEffect(() => {
     const elements = document.querySelectorAll(".reveal-on-scroll:not(.is-visible)");
